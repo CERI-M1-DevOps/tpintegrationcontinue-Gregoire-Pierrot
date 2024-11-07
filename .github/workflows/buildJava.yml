@@ -13,7 +13,9 @@ jobs:
                   distribution: 'corretto'
                   java-version: '21'
             - name: Build with Maven
-              env:
-                  sonar.projectKey: $(echo ${{ secrets.SONAR_TOKEN }} | sed 's-/-_-')
-              run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \-Dsonar.projectKey=$(echo ${{ github.repository }} | sed 's-/-_-')
+              with:
+                env:
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              run:
+                mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \-Dsonar.projectKey=$(echo ${{ github.repository }} | sed 's-/-_-')
                 
